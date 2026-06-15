@@ -25,6 +25,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
             "title",
             "slug",
             "excerpt",
+            "content",
             "cover_image",
             "category",
             "tags",
