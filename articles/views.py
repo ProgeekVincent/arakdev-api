@@ -6,9 +6,7 @@ class ArticleListView(generics.ListAPIView):
     serializer_class = ArticleListSerializer
 
     def get_queryset(self):
-        return Article.objects.filter(
-            status="published"
-        ).select_related(
+        return Article.published.all().select_related(
             "category"
         ).prefetch_related(
             "tags"
@@ -20,9 +18,7 @@ class ArticleDetailView(generics.RetrieveAPIView):
     lookup_field = "slug"
 
     def get_queryset(self):
-        return Article.objects.filter(
-            status="published"
-        ).select_related(
+        return Article.published.all().select_related(
             "category"
         ).prefetch_related(
             "tags"
@@ -42,11 +38,7 @@ class RecentFeaturedArticleListView(generics.ListAPIView):
 
     def get_queryset(self):
         return (
-            Article.objects
-            .filter(
-                status="published",
-                featured=True
-            )
+            Article.published.filter(feaured=True)
             .select_related("category")
             .prefetch_related("tags")
             .order_by("-published_at")[:3]
