@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Resume, ResumeLead, ResumeDownloadToken
+from .models import Resume, ResumeLead, ResumeDownloadToken, Subscriber
 
 @admin.register(Resume)
 class RegisterAdmin(admin.ModelAdmin):
@@ -15,3 +15,10 @@ class ResumeLeadAdmin(admin.ModelAdmin):
 @admin.register(ResumeDownloadToken)
 class ResumeDownloadToken(admin.ModelAdmin):
 	list_display = ["lead", "token", "clicked_at", "downloaded_at", "is_used", "created_at"]
+
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+	list_display = ["email", "name", "date_joined", "is_active"]
+	list_filter = ["is_active", ]
+
