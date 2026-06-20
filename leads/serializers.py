@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
-from .models import Contact, ResumeLead
+from .models import Contact, ResumeLead, Resume
 
 from .tasks import send_contact_email, send_confirmation_email
 
@@ -26,17 +26,14 @@ class ContactSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        send_contact_email.delay(
-            validated_data.get("name"),
+        send_contact_email.delay( validated_data.get("name"),
             validated_data.get("email"),
             validated_data.get("subject"),
-            validated_data.get("message")
-            )
+            validated_data.get("message"))
 
         send_confirmation_email.delay(
             validated_data.get("name"),
-            validated_data.get("email")
-            )
+            validated_data.get("email"))
         return super().create(validated_data)
 
 

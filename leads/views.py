@@ -25,22 +25,13 @@ class ResumeLeadCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
 
         request = self.request
-
         lead = serializer.save(
             ip_address=self.get_client_ip(request),
-            user_agent=request.META.get("HTTP_USER_AGENT", "")
-        )
+            user_agent=request.META.get("HTTP_USER_AGENT", ""))
 
-        # create secure token
-        token_obj = ResumeDownloadToken.objects.create(
-            lead=lead
-        )
+        token_obj = ResumeDownloadToken.objects.create(lead=lead)
 
-        # send email asynchronously
-        send_resume_email.delay(
-            lead.email,
-            str(token_obj.token)
-        )
+        send_resume_email.delay(lead.email, token_obj.token)
 
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")

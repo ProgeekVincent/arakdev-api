@@ -1,10 +1,12 @@
 from pathlib import Path
 import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+CHILD_DIR = Path(__file__).resolve().parent.parent
+LEAF_DIR = Path(__file__).resolve().parent
 
 env = environ.Env()
-environ.Env.read_env(BASE_DIR / ".env")
+environ.Env.read_env(CHILD_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -42,7 +44,7 @@ ROOT_URLCONF = "arakdev.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "leads/templates/",],
+        "DIRS": [ROOT_DIR / "leads/templates/",],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -85,32 +87,3 @@ TIME_ZONE = "Africa/Johannesburg"
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
-STATIC_URL = "static/"
-
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "no-reply@yourapp.com"
-
-
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
-
-CELERY_TIMEZONE = "Africa/Johannesburg"
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173"
-]
-
-CORS_ALLOW_CREDENTIALS = True

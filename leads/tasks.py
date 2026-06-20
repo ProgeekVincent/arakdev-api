@@ -52,7 +52,7 @@ def send_confirmation_email(name, email):
 def send_resume_email(email, token):
 
     # download_link = f"{settings.FRONTEND_URL}/resume/download/{token}/"
-    download_link = f"http://localhost:8000{reverse("resume-download", args=[token])}"
+    download_link = reverse("resume-download", args=[token])
 
     subject = "Your requested resume"
 
