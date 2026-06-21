@@ -19,7 +19,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
             
             if subscriber.is_active:
                raise serializers.ValidationError({
-                    "email": "You're already part of the community"
+                    "email": "Your subcription is active."
                 })
             subscriber.is_active = True
             subscriber.save()
