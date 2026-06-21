@@ -1,9 +1,34 @@
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
-from .models import Contact, ResumeLead, Resume
+from .models import Contact, ResumeLead, Resume, Subscriber
 
 from .tasks import send_contact_email, send_confirmation_email
+
+
+class SubscriberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriber
+        fields = ["id", "name", "email", "is_active"]
+
+
+    def create(self, validated_data):
+        try:
+            subscriber = Subscriber.objects.get(
+                email=validated_data.get("email"))
+            
+            if subscriber.is_active:
+               raise serializers.ValidationError({
+                    "email": "You're already part of the community"
+                })
+            subscriber.is_active = True
+            subscriber.save()
+            return subscriber
+
+        except Subscriber.DoesNotExist:
+            return super().create(validated_data)
+
+
 
 
 class ContactSerializer(serializers.ModelSerializer):

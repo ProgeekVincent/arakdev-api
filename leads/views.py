@@ -5,10 +5,18 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.http import FileResponse, Http404
 
-from .models import Resume, ResumeLead, ResumeDownloadToken, Contact
-from .serializers import ResumeLeadSerializer, ContactSerializer
+from .models import Resume, ResumeLead, ResumeDownloadToken, Contact, Subscriber
+from .serializers import (ResumeLeadSerializer, 
+    ContactSerializer, 
+    SubscriberSerializer)
 from .tasks import send_resume_email
 
+
+
+
+class SubscriberCreateView(generics.CreateAPIView):
+    serializer_class = SubscriberSerializer
+    queryset = Subscriber.objects.all()
 
 class ContactCreateView(generics.CreateAPIView):
     serializer_class = ContactSerializer
