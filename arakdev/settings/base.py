@@ -90,6 +90,8 @@ USE_TZ = True
 
 CORS_ALLOW_CREDENTIALS = True
 
+DOWNLOAD_URL = "http://localhost:8000"
+
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 
 CELERY_ACCEPT_CONTENT = ["json"]

@@ -51,8 +51,7 @@ def send_confirmation_email(name, email):
 @shared_task
 def send_resume_email(email, token):
 
-    # download_link = f"{settings.FRONTEND_URL}/resume/download/{token}/"
-    download_link = reverse("resume-download", args=[token])
+    download_link = f"{settings.DOWNLOAD_URL}{reverse("resume-download", args=[token])}"
 
     subject = "Your requested resume"
 
